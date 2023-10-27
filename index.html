@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My App</title>
+    <script>
+      async function loadTasks() {
+        // when we refresh page, load some tasks coming from BE.
+        res = await fetch("get-tasks", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+        });
+        jsonRes = res.json();
+
+        ulEl = document.getElementById("tasks");
+        for (task of jsonRes.tasks) {
+          liEl = document.createElement("li");
+          liEl.textContent = task;
+          ulEl.appendChild(liEl);
+        }
+      }
+
+      async function handleSaveTask() {
+        ulEl = document.getElementById("tasks"); // ulel is unlisted Element. gives us the ulEl
+        inputEl = document.getElementById("task"); // to know what the user entered, take the value and add it as a task
+
+        liEl = document.createElement("li"); // create a new list item
+        liEl.textContent = inputEl.value;
+        ulEl.appendChild(liEl);
+
+        payload = {
+          /*data sent in http msg body*/
+          task: inputEl.value /*value entered by user*/,
+        };
+
+        res = await fetch("save-task", {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+        });
+
+        jsonRes = await res.json();
+        console.log(jsonRes);
+      }
+    </script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body onload="loadTasks()">
+    <div>
+      <label> Add Task</label>
+      <input id="task" type="text" placeholder="New Task" />
+      <!-- give input an id that can be referenced-->
+      <button onclick="handleSaveTask()">Save</button>
+      <!-- adds tasks as a list after clicking save-->
+
+      <ul id="tasks"></ul>
+      <!-- give an id that can be referenced or called in JS-->
+    </div>
+  </body>
+</html>
