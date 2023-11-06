@@ -1,21 +1,20 @@
 const express = require("express"); //('express) is a library & const express is a var
 const app = express(); // call the function to create an app, set to const app
-const bodyParser = require("body-parser"); // changes from JSON t JS object.
+const bodyParser = require("body-parser");
 
-app.use(bodyParser.json()); // middleware that does json parsing
+app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/"));
 
 app.post("/save-task", function (req, res) {
-  // this functon will run whenever a post req is sent 2 this endpoint
-  const taskObj = req.body; // grab payload out of the request, body is attribute set on
-  // connects to data base
-  // saves new task in database
-  console.log("saved-task: ", taskObj.task); // takes 2 parameters
-  res.send({ savedTask: taskObj.task }); // send response from BE
+  const taskObj = req.body;
+  // connects to database
+  //saves new task to database
+  console.log("/saved-task: ", taskObj.task);
+  res.send({ savedTask: taskObj.task });
 });
 
 app.get("/get-tasks", function (req, res) {
-  const task = ["Write JS code", "Have breakfast", "Study more"];
+  const tasks = ["Write Js code", "Relearn load tasks", "Run app"];
   res.send({ tasks: tasks });
 });
 

@@ -6,18 +6,17 @@
     <title>My App</title>
     <script>
       async function loadTasks() {
-        // when we refresh page, load some tasks coming from BE.
         res = await fetch("get-tasks", {
           method: "GET",
           headers: {
             Accept: "application/json",
-            "Content-type": "application/json",
+            "Content-Type": "application/json",
           },
         });
-        jsonRes = res.json();
+        jsonRes = await res.json();
 
         ulEl = document.getElementById("tasks");
-        for (task of jsonRes.tasks) {
+        for (tsk of jsonRes.tasks) {
           liEl = document.createElement("li");
           liEl.textContent = task;
           ulEl.appendChild(liEl);
@@ -33,8 +32,7 @@
         ulEl.appendChild(liEl);
 
         payload = {
-          /*data sent in http msg body*/
-          task: inputEl.value /*value entered by user*/,
+          task: inputEl.value,
         };
 
         res = await fetch("save-task", {
@@ -42,7 +40,7 @@
           body: JSON.stringify(payload),
           headers: {
             Accept: "application/json",
-            "Content-type": "application/json",
+            "Content-Type": "application/json",
           },
         });
 
