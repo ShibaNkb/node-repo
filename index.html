@@ -16,7 +16,7 @@
         jsonRes = await res.json();
 
         ulEl = document.getElementById("tasks");
-        for (tsk of jsonRes.tasks) {
+        for (task of jsonRes.tasks) {
           liEl = document.createElement("li");
           liEl.textContent = task;
           ulEl.appendChild(liEl);
